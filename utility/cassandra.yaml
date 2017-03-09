@@ -64,7 +64,7 @@ batchlog_replay_throttle_in_kb: 1024
 #   users. It keeps usernames and hashed passwords in system_auth.credentials table.
 #   Please increase system_auth keyspace replication factor if you use this authenticator.
 #   If using PasswordAuthenticator, CassandraRoleManager must also be used (see below)
-authenticator: PasswordAuthenticator
+authenticator: AllowAllAuthenticator
 
 # Authorization backend, implementing IAuthorizer; used to limit access/provide permissions
 # Out of the box, Cassandra provides org.apache.cassandra.auth.{AllowAllAuthorizer,
@@ -73,7 +73,7 @@ authenticator: PasswordAuthenticator
 # - AllowAllAuthorizer allows any action to any user - set it to disable authorization.
 # - CassandraAuthorizer stores permissions in system_auth.permissions table. Please
 #   increase system_auth keyspace replication factor if you use this authorizer.
-authorizer: CassandraAuthorizer
+authorizer: AllowAllAuthorizer
 
 # Part of the Authentication & Authorization backend, implementing IRoleManager; used
 # to maintain grants and memberships between roles.
@@ -296,11 +296,11 @@ seed_provider:
     # Cassandra nodes use this list of hosts to find each other and learn
     # the topology of the ring.  You must change this if you are running
     # multiple nodes!
-    - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+    - class_name: io.k8s.cassandra.KubernetesSeedProvider
       parameters:
           # seeds is actually a comma-delimited list of addresses.
           # Ex: "<ip1>,<ip2>,<ip3>"
-          - seeds: "kong-database-0.cassandra.coi-iamservices-poc.svc.cluster.local"
+          - seeds: 127.0.0.1
 
 # For workloads with more data than can fit in memory, Cassandra's
 # bottleneck will be reads that need to fetch data from
@@ -917,4 +917,3 @@ windows_timer_interval: 1
 
 # Do not try to coalesce messages if we already got that many messages. This should be more than 2 and less than 128.
 # otc_coalescing_enough_coalesced_messages: 8
-auto_bootstrap: false
