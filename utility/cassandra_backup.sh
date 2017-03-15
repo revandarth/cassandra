@@ -130,4 +130,10 @@ do
 	SNAPSHOT_RELATIVE_PATH=`echo $SNP_VAR|awk '{gsub("'$DATA_DIR'", "");print}'`
 	cp -prvf "$SNP_VAR" "$BACKUP_SNAPSHOT_DIR$SNAPSHOT_RELATIVE_PATH";
 done
+echo "Done with backup"
 
+#### Following are the To-do list
+## Restore and test the backup
+## Move backup directory to safer place
+## Clean the snapshots: nodetool clearsnapshot cleans all the snapshots on a node.
+## Verify the backup: verify whtere the backup is successfully restored back. may be we can run restore_script before confirming backup is succesful.
