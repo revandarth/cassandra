@@ -1,7 +1,7 @@
 #!/bin/bash
 
-##
-script_name=`basename $0`
+##For monitoring purpose
+SCRIPT_NAME=`basename $0`
 echo "$script_name started running"
 
 #Define required directories
@@ -13,8 +13,7 @@ CQLSH=$CASSANDRA_HOME/bin/cqlsh
 NODETOOL=$CASSANDRA_HOME/bin/nodetool
 
 
-### Get today's date and time. Name snapshot schema directory, snapshot directorr
-y and snapshot name according to 'em'.
+### Get today's date and time. Name snapshot schema directory, snapshot directorry and snapshot name according to 'em'.
 # It will enable us to access/identify backups without any confusion.
 
 TODAY_DATE=$(date +%F)
@@ -24,12 +23,12 @@ SNAPSHOT_DIR=$(find $DATA_DIR -type d -name snapshots)
 SNAPSHOT_NAME=snp-$(date +%F-%H%M-%S)
 DATE_SCHEMA=$(date +%F-%H%M-%S)
 
-# Error handling
+# Function: Error handling
 function fail {
   echo $1 >&2
   exit 1
 }
-# Retry until n times before exiting.
+# Function: Retry until n times before exiting.
 function retry {
   local n=1
   local try=$1
@@ -47,8 +46,7 @@ function retry {
   done
 }
 
-################ Create backup Directories if they don't exist ##################
-########
+################ Create backup Directories if they don't exist ##########################
 
 if [ -d  "$BACKUP_SCHEMA_DIR" ]
 then
@@ -111,31 +109,25 @@ _SNAPSHOT_DIR_LIST=`find $DATA_DIR -type d -name snapshots|awk '{gsub("'$DATA_DI
 echo "Creating keyspace directories inside backup snapshot directory"
 for i in `cat snapshot_dir_list`
 do
-echo "dude you are here"
-if [ -d $BACKUP_SNAPSHOT_DIR/$i ]
-then
-echo "$i directory exist"
-else
-mkdir -p $BACKUP_SNAPSHOT_DIR/$i
-echo $i Directory is created
-fi
+	echo "dude you are here"
+	if [ -d $BACKUP_SNAPSHOT_DIR/$i ]
+	then
+		echo "$i directory exist"
+	else
+		mkdir -p $BACKUP_SNAPSHOT_DIR/$i
+		echo $i Directory is created
+	fi
 done
 
 echo "Done with creating directories inside backup snapshot directory for all the keyspaces"
-
-
 echo "Started copying default Snapshot dir to backup dir"
 
 find $DATA_DIR -type d -name $SNAPSHOT_NAME > snp_dir_list
 
-
 for SNP_VAR in $(cat snp_dir_list);
 do
-echo "Trim the absolute path and get snapshot relative path from data directory"
-
-SNAPSHOT_RELATIVE_PATH=`echo $SNP_VAR|awk '{gsub("'$DATA_DIR'", "");print}'`
-
-cp -prvf "$SNP_VAR" "$BACKUP_SNAPSHOT_DIR$SNAPSHOT_RELATIVE_PATH";
-
+	#Trim the absolute path and get snapshot relative path from data directory
+	SNAPSHOT_RELATIVE_PATH=`echo $SNP_VAR|awk '{gsub("'$DATA_DIR'", "");print}'`
+	cp -prvf "$SNP_VAR" "$BACKUP_SNAPSHOT_DIR$SNAPSHOT_RELATIVE_PATH";
 done
 

@@ -1,9 +1,8 @@
 #!/bin/bash
 
-
+### Define required variables
 BACKUP_DIR="/backup-3"
 CASSANDRA_DIR="/cassandra_data/data"
-
 KEYSPACE_NAME="demo"
 
 
