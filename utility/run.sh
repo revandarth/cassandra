@@ -53,7 +53,7 @@ echo CASSANDRA_NUM_TOKENS ${CASSANDRA_NUM_TOKENS}
 #echo CASSANDRA_SEED_PROVIDER ${CASSANDRA_SEED_PROVIDER}
 
 
-echo "JVM_OPTS=\"\$JVM_OPTS -Djava.rmi.server.hostname=$POD_IP\"" >> ${CASSANDRA_CONG_DIR}/cassandra-env.sh
+#echo "JVM_OPTS=\"\$JVM_OPTS -Djava.rmi.server.hostname=$POD_IP\"" >> ${CASSANDRA_CONG_DIR}/cassandra-env.sh
 
 # TODO what else needs to be modified
 
@@ -72,28 +72,9 @@ for yaml in \
         fi
 done
 
+### Todo : will be useful if we are not going with kubernetesSeedProvider. Leaving it here for later use
 
-
-
-# for yaml in \
-#  broadcast_address \
-#  broadcast_rpc_address \
-#  cluster_name \
-#  endpoint_snitch \
-#  listen_address \
-#  num_tokens \
-#  rpc_address \
-#  listen_interface \
-#  rpc_interface \
-#  ; do
-#  var="CASSANDRA_${yaml^^}"
-#  val="${!var}"
-#  if [ "$val" ]; then
-#    sed -ri 's/^(# )?('"$yaml"':).*/\2 '"$val"'/' "$CASSANDRA_CFG"
-#  fi
-#done
-
-#echo "auto_bootstrap: ${CASSANDRA_AUTO_BOOTSTRAP}" >> $CASSANDRA_CFG
+# echo "auto_bootstrap: ${CASSANDRA_AUTO_BOOTSTRAP}" >> $CASSANDRA_CFG
 # set the seed to itself.  This is only for the first pod, otherwise
 # it will be able to get seeds from the seed provider
 #if [[ $CASSANDRA_SEEDS == 'false' ]]; then
@@ -102,12 +83,15 @@ done
 #  sed -ri 's/- seeds:.*/- seeds: "'"$CASSANDRA_SEEDS"'"/' $CASSANDRA_CFG
 #fi
 
-#sed -ri 's/- class_name: SEED_PROVIDER/- class_name: '"$CASSANDRA_SEED_PROVIDER"'/' $CASSANDRA_CFG
 
-# enable RMI and JMX to work on one port
+#
 echo "JVM_OPTS=\"\$JVM_OPTS -Djava.rmi.server.hostname=$POD_IP\"" >> $CASSANDRA_CONF_DIR/cassandra-env.sh
 
-export CLASSPATH=/kubernetes-cassandra.jar
+
+###
+# Currently, we are good to go without replacing the dead node ip with current node ip. 
+# Using KubernetesseedProvider, cluster is getting updated automatically without replacing the dead ip with current node ip. 
+# I may need to investigate more about this behaviour more. May be, during the next version of base image.
 
 #if [ -n "$CASSANDRA_REPLACE_NODE" ]
 #then

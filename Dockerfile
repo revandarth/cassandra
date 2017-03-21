@@ -31,7 +31,7 @@ RUN chmod 777 ${CASSANDRA_HOME} \
               ${CASSANDRA_COMMITLOG}
 
 RUN mv /cassandra.yaml ${CASSANDRA_HOME}/conf/
-
+RUN mv /kubernetes-cassandra.jar ${CASSANDRA_HOME}/lib/
 
 # 7000: intra-node communication
 # 7001: TLS intra-node communication
