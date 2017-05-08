@@ -18,7 +18,7 @@ kind: PetSet
 metadata: 
   name: kong-database
 spec: 
-  replicas: 3
+  replicas: 1
   serviceName: cassandra
   template: 
     metadata: 
@@ -52,6 +52,10 @@ spec:
           resources: 
             limits: 
               cpu: 600m
+              memory: 1024M
+            requests:
+              cpu: 60m
+              memory: 256M
           securityContext:
             runAsUser: 0
           name: cassandra
