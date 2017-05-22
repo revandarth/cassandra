@@ -1,0 +1,10 @@
+{
+   "translate_wan_addrs":true,
+   "log_level":"debug",
+   "service":{
+      "name":"kong-db",
+      "tags":[
+         "v1"
+      ]
+   }
+}
