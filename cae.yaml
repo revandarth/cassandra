@@ -59,7 +59,7 @@ spec:
           securityContext:
             runAsUser: 0
           name: cassandra
-          image: containers.cisco.com/oneidentity/cassandra_ok:latest
+          image: containers.cisco.com/oneidentity/cassandra_ok:v1.0
           ports: 
             - containerPort: 7000
               name: intra-node

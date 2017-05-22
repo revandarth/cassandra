@@ -1,4 +1,4 @@
-FROM containers.cisco.com/oneidentity/centos7-consul
+FROM containers.cisco.com/oneidentity/centos7-java:v2.5
 MAINTAINER Revanth R Airre <reairre@cisco.com>
 
 ENV CASSANDRA_VERSION=2.2.9
@@ -32,6 +32,7 @@ RUN chmod 777 ${CASSANDRA_HOME} \
 
 RUN mv /cassandra.yaml ${CASSANDRA_HOME}/conf/
 RUN mv /kubernetes-cassandra.jar ${CASSANDRA_HOME}/lib/
+RUN mv /servicediscovery.json /etc/consul/
 
 # 7000: intra-node communication
 # 7001: TLS intra-node communication
@@ -39,5 +40,3 @@ RUN mv /kubernetes-cassandra.jar ${CASSANDRA_HOME}/lib/
 # 9042: CQL
 # 9160: thrift service
 EXPOSE 7000 7001 7199 9042 9160
-
-CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
