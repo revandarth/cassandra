@@ -56,6 +56,18 @@ spec:
             requests:
               cpu: 60m
               memory: 256M
+          readinessProbe:
+            exec:
+              command:
+              - /usr/local/bin/readiness.sh
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+          livenessProbe:
+            exec:
+              command:
+              - /usr/local/bin/readiness.sh
+            initialDelaySeconds: 120
+            timeoutSeconds: 5
           securityContext:
             runAsUser: 0
           name: cassandra

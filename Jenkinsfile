@@ -116,7 +116,7 @@ node(slave){
               jStage = "Deploy to POC"
               environment = "poc"
               echo "INFO: Deploying in coi-${project}-${environment}"
-             // coiDeploy.runDeploy(["alln", "rcdn"] as String[], project, service, environment, IMAGE_TAG)
+              coiDeploy.runDeploy(["alln", "rcdn"] as String[], project, service, environment, IMAGE_TAG)
               echo "INFO: Deployment is completed at coi-${project}-"
               message="${service} deployment in ${environment} is done"
               coiNotify.sparkNotification(DEV_SPARK_ROOM_ID, jStage, "SUCCESSFUL", message)

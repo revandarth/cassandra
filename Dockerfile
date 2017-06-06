@@ -12,7 +12,10 @@ ENV CASSANDRA_BASE=/opt/cassandra \
 COPY utility/ /
 RUN cp /cassandra.conf /etc/supervisor/conf.d/cassandra.conf
 RUN cp /run.sh /bin/ 
-RUN chmod 777 /bin/run.sh
+RUN cp /readiness.sh /usr/local/bin/readiness.sh
+
+RUN chmod 777 /bin/run.sh \
+              /usr/local/bin/readiness.sh
 
 RUN yum clean all && \
     yum update -y 
