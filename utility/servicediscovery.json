@@ -9,7 +9,7 @@
    },
    "checks": [
       	{
-      	"script": "/usr/local/bin/readiness.sh", 
+      	"script": "/usr/local/bin/health.sh", 
       	"interval": "5s"
    	    }
   	]
