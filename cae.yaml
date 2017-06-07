@@ -18,7 +18,7 @@ kind: PetSet
 metadata: 
   name: kong-database
 spec: 
-  replicas: 1
+  replicas: 3
   serviceName: cassandra
   template: 
     metadata: 
@@ -27,6 +27,18 @@ spec:
       labels: 
         app: kong-database
     spec: 
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - kong-database
+              topologyKey: kubernetes.io/hostname
       containers: 
         - env: 
             - name: MAX_HEAP_SIZE
@@ -72,7 +84,7 @@ spec:
           securityContext:
             runAsUser: 0
           name: cassandra
-          image: containers.cisco.com/oneidentity/cassandra_ok:ONEIDENT-3834-14
+          image: containers.cisco.com/oneidentity/cassandra_ok:ONEIDENT-3834-15
           ports: 
             - containerPort: 7000
               name: intra-node
