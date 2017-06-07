@@ -7,4 +7,10 @@
          "v1"
       ]
    }
+   "checks": [
+      	{
+      	"script": "/usr/local/bin/readiness.sh", 
+      	"interval": "5s"
+   	    }
+  	]
 }

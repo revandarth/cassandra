@@ -10,15 +10,15 @@ ENV CASSANDRA_BASE=/opt/cassandra \
     CASSANDRA_SAVED_CACHES=/cassandra_data/saved_caches 
 
 COPY utility/ /
-RUN cp /cassandra.conf /etc/supervisor/conf.d/cassandra.conf
-RUN cp /run.sh /bin/ 
-RUN cp /readiness.sh /usr/local/bin/readiness.sh
+RUN mv /cassandra.conf /etc/supervisor/conf.d/cassandra.conf
+RUN mv /run.sh /bin/ 
+RUN mv /readiness.sh /usr/local/bin/
+RUN mv /health.sh /usr/local/bin/
+
 
 RUN chmod 777 /bin/run.sh \
-              /usr/local/bin/readiness.sh
-
-RUN yum clean all && \
-    yum update -y 
+              /usr/local/bin/readiness.sh \
+              /usr/local/bin/health.sh
 
 ## Create data directories that should be used by Cassandra
 RUN mkdir -p ${CASSANDRA_DATA} \
@@ -32,6 +32,7 @@ RUN chmod 777 ${CASSANDRA_HOME} \
               ${CASSANDRA_DATA} \
               ${CASSANDRA_SAVED_CACHES} \
               ${CASSANDRA_COMMITLOG}
+
 
 RUN mv /cassandra.yaml ${CASSANDRA_HOME}/conf/
 RUN mv /kubernetes-cassandra.jar ${CASSANDRA_HOME}/lib/

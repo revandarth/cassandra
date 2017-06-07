@@ -113,13 +113,13 @@ node(slave){
 
               echo "INFO: IMAGE tag in cae.yaml file after replacing - ${imageTagAfter}"
       stage 'Deploy To CAE poc'
-              jStage = "Deploy to POC"
-              environment = "poc"
-              echo "INFO: Deploying in coi-${project}-${environment}"
-              coiDeploy.runDeploy(["alln", "rcdn"] as String[], project, service, environment, IMAGE_TAG)
-              echo "INFO: Deployment is completed at coi-${project}-"
-              message="${service} deployment in ${environment} is done"
-              coiNotify.sparkNotification(DEV_SPARK_ROOM_ID, jStage, "SUCCESSFUL", message)
+             // jStage = "Deploy to POC"
+             // environment = "poc"
+             // echo "INFO: Deploying in coi-${project}-${environment}"
+             // coiDeploy.runDeploy(["alln", "rcdn"] as String[], project, service, environment, IMAGE_TAG)
+             // echo "INFO: Deployment is completed at coi-${project}-"
+             // message="${service} deployment in ${environment} is done"
+             // coiNotify.sparkNotification(DEV_SPARK_ROOM_ID, jStage, "SUCCESSFUL", message)
 } 
 }catch(Exception e) {
               currentBuild.result = 'FAILURE'
