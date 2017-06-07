@@ -5,12 +5,10 @@
       "name":"kong-db",
       "tags":[
          "v1"
-      ]
-   },
-   "checks": [
-      	{
+      ],
+   	  "checks": {
       	"script": "/usr/local/bin/health.sh", 
       	"interval": "5s"
    	    }
-  	]
+  	}
 }
