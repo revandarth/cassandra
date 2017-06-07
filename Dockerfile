@@ -1,4 +1,4 @@
-FROM containers.cisco.com/oneidentity/centos7-consul
+FROM containers.cisco.com/oneidentity/centos7-java:v2.5
 MAINTAINER Revanth R Airre <reairre@cisco.com>
 
 ENV CASSANDRA_VERSION=2.2.9
@@ -10,12 +10,15 @@ ENV CASSANDRA_BASE=/opt/cassandra \
     CASSANDRA_SAVED_CACHES=/cassandra_data/saved_caches 
 
 COPY utility/ /
-RUN cp /cassandra.conf /etc/supervisor/conf.d/cassandra.conf
-RUN cp /run.sh /bin/ 
-RUN chmod 777 /bin/run.sh
+RUN mv /cassandra.conf /etc/supervisor/conf.d/cassandra.conf
+RUN mv /run.sh /bin/ 
+RUN mv /readiness.sh /usr/local/bin/
+RUN mv /health.sh /usr/local/bin/
 
-RUN yum clean all && \
-    yum update -y 
+
+RUN chmod 777 /bin/run.sh \
+              /usr/local/bin/readiness.sh \
+              /usr/local/bin/health.sh
 
 ## Create data directories that should be used by Cassandra
 RUN mkdir -p ${CASSANDRA_DATA} \
@@ -30,8 +33,10 @@ RUN chmod 777 ${CASSANDRA_HOME} \
               ${CASSANDRA_SAVED_CACHES} \
               ${CASSANDRA_COMMITLOG}
 
+
 RUN mv /cassandra.yaml ${CASSANDRA_HOME}/conf/
 RUN mv /kubernetes-cassandra.jar ${CASSANDRA_HOME}/lib/
+RUN mv /servicediscovery.json /etc/consul/
 
 # 7000: intra-node communication
 # 7001: TLS intra-node communication
@@ -39,5 +44,3 @@ RUN mv /kubernetes-cassandra.jar ${CASSANDRA_HOME}/lib/
 # 9042: CQL
 # 9160: thrift service
 EXPOSE 7000 7001 7199 9042 9160
-
-CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
