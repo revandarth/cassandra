@@ -61,6 +61,10 @@ spec:
               valueFrom: 
                 fieldRef: 
                   fieldPath: status.podIP
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "PID=$(pidof java) && kill $PID && while ps -p $PID > /dev/null; do sleep 1; done"]
           resources: 
             limits: 
               cpu: "1"
