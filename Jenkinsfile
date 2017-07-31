@@ -43,7 +43,7 @@ try {
           stage 'Deploy To CAE POC'
                   jStage = "Deploy to POC"
                   environment = "poc"
-                  coiDeploy.runDeploy(["alln", rcdn"] as String[], environment, jStage)
+                  coiDeploy.runDeploy(["alln", "rcdn"] as String[], environment, jStage)
       } 
       // having input step outside of node, so it doesn't tie up to a slave
 
