@@ -57,7 +57,7 @@ try {
               jStage = "Deploy to DEV"
               unstash "cae.yaml"
               environment = "dev"
-              coiDeploy.runDeploy(["alln", rcdn"] as String[], environment, jStage)
+              coiDeploy.runDeploy(["alln", "rcdn"] as String[], environment, jStage)
       }
 
       stage 'Stage Promotion Approval'
@@ -70,7 +70,7 @@ try {
               jStage = "Deploy to Stg"
               unstash "cae.yaml"
               environment = "stg"
-              coiDeploy.runDeploy(["alln", rcdn"] as String[], environment, jStage)
+              coiDeploy.runDeploy(["alln", "rcdn"] as String[], environment, jStage)
       }
       stage 'Prod Promotion Approval'
               jStage="Prod Promotion Approval"
@@ -82,7 +82,7 @@ try {
               jStage = "Deploy to Prod"
               unstash "cae.yaml"
               environment = "prd"
-              coiDeploy.runDeploy(["alln", rcdn"] as String[], environment, jStage)
+              coiDeploy.runDeploy(["alln", "rcdn"] as String[], environment, jStage)
         }     
 
 }catch(Exception e) {
