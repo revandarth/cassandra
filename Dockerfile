@@ -1,4 +1,4 @@
-FROM containers.cisco.com/oneidentity/centos7-java:v2
+FROM registry.revan.com/identity/centos7-java:v2
 MAINTAINER Revan Darth <revandarth@cisco.com>
 
 ENV CASSANDRA_VERSION=2.2.9
